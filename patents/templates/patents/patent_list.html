@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patent list</title>
+</head>
+<body>
+    <div>
+        <h1>Patent list</h1>
+    </div>
+    {% for patent in patents %}
+    <div>
+        <p>
+            <a href="{% url 'patent_detail' pk=patent.pk %}">{{ patent.publication_number }} : {{ patent.title }}</a>
+        </p>
+    </div>
+    {% endfor %}
+</body>
+</html> 
