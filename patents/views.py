@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 
 from .models import Patent
+from .forms import PatentForm
 
 
 def patent_list(request):
@@ -17,3 +18,13 @@ def patent_list(request):
 def patent_detail(request, pk):
     patent = get_object_or_404(Patent, pk=pk)
     return render(request, 'patents/patent_detail.html', {'patent': patent})
+
+def patent_new(request):
+    if request.method == 'POST':
+        form = PatentForm(request.POST)
+        if form.is_valid():
+            patent = form.save()
+            return redirect('patent_detail', pk=patent.pk)
+    else:
+        form = PatentForm()
+    return render(request, 'patents/patent_edit.html', {'form': form})

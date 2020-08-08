@@ -6,6 +6,7 @@
 <body>
     <div>
         <h1>Patent list</h1>
+        <a href="{% url 'patent_new' %}"><button>Add</button></a>
     </div>
     {% for patent in patents %}
     <div>
