@@ -1,47 +1,41 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.core.paginator import Paginator
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Patent
-from .forms import PatentForm
+from .forms import PatentCreateForm, PatentUpdateForm
 
 
-def patent_list(request):
-    patents = Patent.objects.all().order_by('publication_number')
-
-    paginator = Paginator(patents, 10)
-    page_number = request.GET.get('page')
-    page_objects = paginator.get_page(page_number)
-
-    return render(request, 'patents/patent_list.html', {'patents': page_objects})
+class PatentListView(ListView):
+    model = Patent
+    template_name = 'patents/patent_list.html'
+    context_object_name = 'patents'
+    paginate_by = 10
 
 
-def patent_detail(request, pk):
-    patent = get_object_or_404(Patent, pk=pk)
-    return render(request, 'patents/patent_detail.html', {'patent': patent})
+class PatentDetailView(DetailView):
+    model = Patent
+    template_name = 'patents/patent_detail.html'
+    context_object_name = 'patent'
 
-def patent_new(request):
-    if request.method == 'POST':
-        form = PatentForm(request.POST)
-        if form.is_valid():
-            patent = form.save()
-            return redirect('patent_detail', pk=patent.pk)
-    else:
-        form = PatentForm()
-    return render(request, 'patents/patent_edit.html', {'form': form})
 
-def patent_edit(request, pk):
-    patent = get_object_or_404(Patent, pk=pk)
-    if request.method == 'POST':
-        form = PatentForm(request.POST, instance=patent)
-        if form.is_valid():
-            patent = form.save()
-            return redirect('patent_detail', pk=patent.pk)
-    else:
-        form = PatentForm(instance=patent)
-    return render(request, 'patents/patent_edit.html', {'form': form})
+class PatentCreateView(CreateView):
+    model = Patent
+    template_name = 'patents/patent_edit.html'
+    context_object_name = 'patent'
+    form_class = PatentCreateForm
+    success_url = reverse_lazy('patent_list')
 
-def patent_delete(request, pk):
-    patent = get_object_or_404(Patent, pk=pk)
-    patent.delete()
-    return redirect('patent_list') 
-    
+
+class PatentUpdateView(UpdateView):
+    model = Patent
+    template_name = 'patents/patent_edit.html'
+    context_object_name = 'patent'
+    form_class = PatentUpdateForm
+    success_url = reverse_lazy('patent_list')
+
+
+class PatentDeleteView(DeleteView):
+    model = Patent
+    template_name = 'patents/patent_delete.html'
+    success_url = reverse_lazy('patent_list')

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test</title>
+</head>
+<body>
+    <h1>Are you sure to delete this patent?</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Yes</button>        
+    </form>
+    <a href="{% url 'patent_list' %}"><button>No</button></a>
+</body>
+</html> 
