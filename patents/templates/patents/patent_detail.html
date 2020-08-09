@@ -5,6 +5,7 @@
 </head>
 <body>
     <div class="patent">
+        <a href="{% url 'patent_edit' pk=patent.pk %}"><button>Edit</button></a>
         <h1>{{ patent.title }}</h1>
         <p>publication_number : {{ patent.publication_number }}</p>
         <p>abstract :<br>{{ patent.abstract }}</p>

@@ -28,3 +28,14 @@ def patent_new(request):
     else:
         form = PatentForm()
     return render(request, 'patents/patent_edit.html', {'form': form})
+
+def patent_edit(request, pk):
+    patent = get_object_or_404(Patent, pk=pk)
+    if request.method == 'POST':
+        form = PatentForm(request.POST, instance=patent)
+        if form.is_valid():
+            patent = form.save()
+            return redirect('patent_detail', pk=patent.pk)
+    else:
+        form = PatentForm(instance=patent)
+    return render(request, 'patents/patent_edit.html', {'form': form})

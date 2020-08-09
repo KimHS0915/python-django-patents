@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.patent_list, name='patent_list'),
     path('patent/<str:pk>/', views.patent_detail, name='patent_detail'),
     path('new/', views.patent_new, name='patent_new'),
+    path('patnet/<str:pk>/edit', views.patent_edit, name='patent_edit'),
 ]
