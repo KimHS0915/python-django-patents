@@ -39,3 +39,9 @@ def patent_edit(request, pk):
     else:
         form = PatentForm(instance=patent)
     return render(request, 'patents/patent_edit.html', {'form': form})
+
+def patent_delete(request, pk):
+    patent = get_object_or_404(Patent, pk=pk)
+    patent.delete()
+    return redirect('patent_list') 
+    
