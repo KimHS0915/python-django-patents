@@ -16,8 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from .views import HomeView
+
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
+    path('', HomeView.as_view(), name='home'),
     path('patents/', include('patents.urls')),
 ]
