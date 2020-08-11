@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Patent detail</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <div class="patent">
         <a href="{% url 'patent_edit' pk=patent.pk %}"><button>Edit</button></a>
         <a href="{% url 'patent_delete' pk=patent.pk %}"><button>Delete</button></a>
@@ -13,5 +10,4 @@
         <p>abstract :<br>{{ patent.abstract }}</p>
         <p>claims :<br>{{ patent.claims }}</p>
     </div>
-</body>
-</html> 
+{% endblock %}
