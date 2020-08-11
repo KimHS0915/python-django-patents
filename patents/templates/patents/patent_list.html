@@ -2,20 +2,21 @@
 
 {% block content %}
     <div>
-        <h1>Patent list</h1>
+        <h1>test page</h1>
         <a href="{% url 'patent_new' %}"><button>Add</button></a>
     </div>
-    {% for patent in patents %}
     <div>
-        <p>
-            <a href="{% url 'patent_detail' pk=patent.pk %}">{{ patent.publication_number }} : {{ patent.title }}</a>
-        </p>
+        <ul>          
+        {% for patent in patents %}
+        <li><a href="{% url 'patent_detail' pk=patent.pk %}">{{ patent.publication_number }} : {{ patent.title }}</a></li>
+        {% endfor %}
+        </ul>
     </div>
-    {% endfor %}
     {% if is_paginated %}
         <div class="pagination">
             <span class="page-links">
                 {% if page_obj.has_previous %}
+                <a href="/patents?page=1">first</a>
                     <a href="/patents?page={{ page_obj.previous_page_number }}">previous</a>
                 {% endif %}
                 <span class="page-current">
@@ -23,6 +24,7 @@
                 </span>
                 {% if page_obj.has_next %}
                     <a href="/patents?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="/patents?page={{ paginator.num_pages }}">last</a>
                 {% endif %}
             </span>
         </div>
