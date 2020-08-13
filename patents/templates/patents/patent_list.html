@@ -1,32 +1,48 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        <h1>test page</h1>
-        <a href="{% url 'patent_new' %}"><button>Add</button></a>
-    </div>
-    <div>
-        <ul>          
-        {% for patent in patents %}
-        <li><a href="{% url 'patent_detail' pk=patent.pk %}">{{ patent.publication_number }} : {{ patent.title }}</a></li>
+<div>
+    <h1>Patent(test)</h1>
+    <a href="{% url 'patent_new' %}"><button>Add</button></a>
+</div>
+<div>
+    <table>
+        <tbody>
+            {% for patent in patents %}
+            <tr>
+                <td>
+                    <a href="{% url 'patent_detail' pk=patent.pk %}">{{ patent.publication_number }} : {{ patent.title }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+    <div class = "pagination">
+        {% if page_obj.has_previous %} 
+          <a href="/patents?page={{ page_obj.previous_page_number }}">&laquo;</a>
+        {% else %}
+          <span>&laquo;</span>
+        {% endif %}
+        
+        {% for i in page_obj.paginator.page_range %}
+        
+        {% if page_obj.number == i %}
+        <a href="/patents?page={{ i }}">[{{ i }}]</a>
+        {% else %}
+        <a href="/patents?page={{ i }}">{{ i }}</a>
+        {% endif %}
+
         {% endfor %}
-        </ul>
+        
+        {% if page_obj.has_next %}
+            <a href="/patents?page={{ page_obj.next_page_number }}">&raquo;</a>
+        {% else %}
+            <span>&raquo;</span>
+        {% endif %}
     </div>
-    {% if is_paginated %}
-        <div class="pagination">
-            <span class="page-links">
-                {% if page_obj.has_previous %}
-                <a href="/patents?page=1">first</a>
-                    <a href="/patents?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
-                <span class="page-current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                </span>
-                {% if page_obj.has_next %}
-                    <a href="/patents?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="/patents?page={{ paginator.num_pages }}">last</a>
-                {% endif %}
-            </span>
-        </div>
-    {% endif %}    
+{% endif %}
+
 {% endblock %}
