@@ -2,7 +2,7 @@
 
 {% block content %}
 <div>
-    <h1>Patent(test)</h1>
+    <h1>Patents</h1>
     <a href="{% url 'patent_new' %}"><button>Add</button></a>
 </div>
 <div>
@@ -20,27 +20,35 @@
 </div>
 
 {% if is_paginated %}
-    <div class = "pagination">
-        {% if page_obj.has_previous %} 
-          <a href="/patents?page={{ page_obj.previous_page_number }}">&laquo;</a>
+    {% load proper_paginate %}
+    {% load url_replace %}
+    <div class="pagination">
+        {% if page_obj.number == 1 %}
+            <span class="disabled">⇤</span>
         {% else %}
-          <span>&laquo;</span>
+            <a class="page-link" href="?{% url_replace request 'page' 1 %}">⇤</a>
         {% endif %}
-        
-        {% for i in page_obj.paginator.page_range %}
-        
-        {% if page_obj.number == i %}
-        <a href="/patents?page={{ i }}">[{{ i }}]</a>
+        {% if page_obj.has_previous %}
+            <a class="page-link" href="?{% url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a>
         {% else %}
-        <a href="/patents?page={{ i }}">{{ i }}</a>
+            <span class="disabled">&laquo;</span>
         {% endif %}
-
+        {% for i in paginator|proper_paginate:page_obj.number %}
+            {% if page_obj.number == i %}
+                <span class="active">[{{ i }}]</span>
+            {% else %}
+                <a class="page-link" href="?{% url_replace request 'page' i %}">{{ i }}</a>
+            {% endif %}
         {% endfor %}
-        
         {% if page_obj.has_next %}
-            <a href="/patents?page={{ page_obj.next_page_number }}">&raquo;</a>
+            <a class="page-link" href="?{% url_replace request 'page' page_obj.next_page_number %}">&raquo;</a>
         {% else %}
-            <span>&raquo;</span>
+            <span class="disabled">&raquo;</span>
+        {% endif %}
+        {% if page_obj.number == paginator.num_pages %}
+            <span class="disabled">⇥</span>
+        {% else %}
+            <a class="page-link" href="?{% url_replace request 'page' paginator.num_pages %}">⇥</a>
         {% endif %}
     </div>
 {% endif %}
