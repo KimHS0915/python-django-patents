@@ -45,12 +45,16 @@ class PatentDeleteView(DeleteView):
 class PatentSearchResultView(ListView):
     model = Patent
     template_name = 'patents/search_result.html'
-    paginate_by = 20
+    paginate_by = 10
     context_object_name = 'patents'
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        patents = Patent.objects.filter(
-            Q(title__icontains=query) | Q(abstract__icontains=query) | Q(claims__icontains=query)
-        )
+        query_list = self.request.GET.get('q').split()
+        patents = []
+
+        for query in query_list:
+            patents += Patent.objects.filter(
+                Q(title__icontains=query) | Q(abstract__icontains=query) | Q(claims__icontains=query)
+            )
+
         return patents
