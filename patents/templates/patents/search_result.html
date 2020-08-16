@@ -7,7 +7,7 @@
     <a href="{% url 'patent_new' %}"><button>Add</button></a>
     <a href="{% url 'patent_list' %}"><button>Back</button></a>
 </div>
-
+<br>
 <div>
     <form action="{% url 'search_result' %}" method="get">
         {% csrf_token %}
@@ -15,7 +15,7 @@
         <input type="submit" value="Search" />
     </form>
 </div>
-
+<br>
 <div>
     <table>
         <tbody>
