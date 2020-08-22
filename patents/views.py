@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Q
+from haystack.generic_views import SearchView
 
 from .models import Patent
 from .forms import PatentCreateForm, PatentUpdateForm

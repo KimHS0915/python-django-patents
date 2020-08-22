@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'haystack',
+    'elasticsearch',
+    'patents',
     'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,18 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'haystack',
-    'patents',
     'rangefilter',
     'rest_framework',
     'drf_yasg',
 ]
 
-WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh_index')
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': WHOOSH_INDEX,
+        'ENGINE': 'haystack.backends.elasticsearch5_backend.Elasticsearch2SearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
     },
 }
 
