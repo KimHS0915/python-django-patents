@@ -1,12 +1,14 @@
-  
 from django.urls import path, include
 from rest_framework import routers
 
-from .views import PatentListViewset, PatentListAPIView, PatentDetailAPIView, PatentCreateAPIView, PatentUpdateAPIView, PatentDeleteAPIView
+from .views import PatentListViewSet, PatentListAPIView, \
+    PatentDetailAPIView, PatentCreateAPIView, PatentUpdateAPIView, \
+    PatentDeleteAPIView, PatentSearchViewSet, PatentListFilterAPIView
 
 
 router = routers.DefaultRouter()
 router.register('patents', PatentListViewset)
+router.register('search', PatentSearchViewSet, base_name='patent-search')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -14,5 +16,6 @@ urlpatterns = [
     path('list/<str:pk>/', PatentDetailAPIView.as_view(), name='api_detail'),
     path('new/', PatentCreateAPIView.as_view(), name='api_new'),
     path('list/<str:pk>/edit/', PatentUpdateAPIView.as_view(), name='api_edit'),
-    path('list/<str:pk>/delete/', PatentDeleteAPIView.as_view(), name='api_delete')
+    path('list/<str:pk>/delete/', PatentDeleteAPIView.as_view(), name='api_delete'),
+     path('filter/', PatentListFilterAPIView.as_view(), name='api_filter'),
 ]
