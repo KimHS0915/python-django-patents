@@ -21,3 +21,12 @@ class PatentIndexSerializer(HaystackSerializer):
     class Meta:
         index_classes = [PatentIndex]
         fields = ['publication_number', 'text']
+
+class AutocompleteSerializer(HaystackSerializer):
+    class Meta:
+        index_classes = [PatentIndex]
+        fields = ['text', 'publication_number', 'content_auto']
+        ignore_fields = ['text', 'publication_number']
+        field_aliases = {
+            "q": "content_auto"
+        }

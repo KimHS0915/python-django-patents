@@ -2,9 +2,12 @@ from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from rest_framework import generics, viewsets, permissions
 from rest_framework import filters
 from drf_haystack.viewsets import HaystackViewSet
+from drf_haystack.filters import HaystackAutocompleteFilter
+from drf_haystack.serializers import HaystackSerializer
 
 from patents.models import Patent
-from .serializers import PatentSerializer, PatentDetailSerializer, PatentIndexSerializer
+from .serializers import PatentSerializer, PatentDetailSerializer, \
+    PatentIndexSerializer, AutocompleteSerializer
 
 
 class PatentListViewSet(viewsets.ModelViewSet):
@@ -61,3 +64,9 @@ class PatentListFilterAPIView(generics.ListAPIView):
 class PatentSearchViewSet(HaystackViewSet):
     index_models = [Patent]
     serializer_class = PatentIndexSerializer
+
+
+class AutocompleteSearchViewSet(HaystackViewSet):
+    index_models = [Patent]
+    serializer_class = AutocompleteSerializer
+    filter_backends = [HaystackAutocompleteFilter]
