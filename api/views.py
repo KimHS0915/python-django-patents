@@ -59,14 +59,17 @@ class PatentListFilterAPIView(generics.ListAPIView):
     serializer_class = PatentSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = PatentFilter
+    permission_classes = [permissions.IsAuthenticated]
     
 
 class PatentSearchViewSet(HaystackViewSet):
     index_models = [Patent]
     serializer_class = PatentIndexSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class AutocompleteSearchViewSet(HaystackViewSet):
     index_models = [Patent]
     serializer_class = AutocompleteSerializer
     filter_backends = [HaystackAutocompleteFilter]
+    permission_classes = [permissions.IsAuthenticated]
