@@ -20,7 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ydp^+c(0cu2vf6=(pc1yj@ju=7330f=rm5cl$$%o1zp=&3$yb8'
+
+import json
+
+with open(os.path.join(BASE_DIR, 'secret_key.json')) as f:
+    secret_key = json.loads(f.read())
+SECRET_KEY = secret_key["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
