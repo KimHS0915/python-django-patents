@@ -10,7 +10,7 @@ django-filter==2.2.0
 django-grappelli==2.14.1
 django-haystack==3.0b2.dev4+gea3f8c9
 django-js-asset==1.2.2
-djangorestframework==3.10.3
+djangorestframework==3.11.2
 djoser==2.0.3
 drf-haystack==1.8.6
 drf-yasg==1.17.1
